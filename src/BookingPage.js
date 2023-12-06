@@ -49,11 +49,15 @@ const BookingPage = () => {
   // Function to handle form submission
   const submitForm = async (formData) => {
     try {
+      if (formData.guests <= 10) {
       await submitAPI(formData);
       setFormSubmitted(true);
       // After successful submission, refresh available times for the selected date
       fetchAvailableTimes(selectedDate);
       navigate("/confirmed-booking"); // Navigate here
+      }  else {
+        console.error("Number of guests exceeds 10")
+      }
     } catch (error) {
       console.error(error);
       // Handle the error, e.g., show an error message to the user
