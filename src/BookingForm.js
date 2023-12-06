@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
-const BookingForm = ({ availableTimes, onDateChange }) => {
+const BookingForm = ({ availableTimes, onDateChange, onSubmit, formSubmitted }) => {
   // State variables for form fields
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [guests, setGuests] = useState("");
   const [occasion, setOccasion] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +15,14 @@ const BookingForm = ({ availableTimes, onDateChange }) => {
     console.log("Occasion:", occasion);
 
     // Additional logic for handling form submission can be added here
+    if (onSubmit) {
+      onSubmit({
+        date,
+        time,
+        guests,
+        occasion,
+      });
+    }
 
     clearForm();
   };
@@ -25,11 +32,8 @@ const BookingForm = ({ availableTimes, onDateChange }) => {
     setTime("");
     setGuests("");
     setOccasion("");
-    setFormSubmitted(true);
 
-    setTimeout(() => {
-      setFormSubmitted(false);
-    }, 2000);
+    // Form submitted state is managed externally, clearForm should not change it
   };
 
   const isFormValid = date !== "" && time !== "" && guests !== "" && occasion !== "";
@@ -55,14 +59,16 @@ const BookingForm = ({ availableTimes, onDateChange }) => {
 
         <label htmlFor="res-time">Choose time</label>
         <select
-          id="res-time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-        >
-          {availableTimes.map((availableTime, index) => (
-            <option key={index}>{availableTime}</option>
-          ))}
-        </select>
+  id="res-time"
+  value={time}
+  onChange={(e) => setTime(e.target.value)}
+>
+{availableTimes.map((availableTime, index) => (
+    <option key={index} >{availableTime}</option>
+  ))}
+</select>
+
+
 
         <label htmlFor="guests">Number of guests</label>
         <input
@@ -85,8 +91,12 @@ const BookingForm = ({ availableTimes, onDateChange }) => {
           <option>Anniversary</option>
         </select>
 
-        <input type="submit" value={'Make your reservation'} disabled={!isFormValid} />
-
+        <input
+         type="submit"
+         value={'Make your reservation'}
+          disabled={!isFormValid}
+         onClick={() =>onSubmit({ date, time, guests, occasion})}
+         />
         {formSubmitted && <p>Form submitted successfully!</p>}
       </form>
     </div>
@@ -94,6 +104,7 @@ const BookingForm = ({ availableTimes, onDateChange }) => {
 };
 
 export default BookingForm;
+
 
 
 

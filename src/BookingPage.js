@@ -1,73 +1,81 @@
 import React, { useReducer, useState, useEffect } from "react";
 import BookingForm from "./BookingForm";
+import { fetchAPI, submitAPI } from "./MockApi";
+import { useNavigate } from "react-router-dom";
 
 const availableTimesReducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_TIMES':
-      // Access the selected date from the payload
-      const selectedDate = action.payload.date;
-
-      // Replace this logic with your actual business logic to get available times for the selected date
-      const newTimes = getAvailableTimesForDate(selectedDate);
-      return newTimes;
+      return action.payload.times;
 
     default:
       return state;
   }
 };
 
-const getAvailableTimesForDate = (selectedDate) => {
-  // Replace this logic with your actual business logic
-  // For simplicity, returning a static array
-  return ["17 : 00", "18 : 00", "19 : 00", "20 : 00", "21 : 00", "22 : 00"];
-};
-
 const BookingPage = () => {
-  // Initial state for available times
-  const initialAvailableTimes = ["17 : 00", "18 : 00", "19 : 00", "20 : 00", "21 : 00", "22 : 00"];
+  const navigate = useNavigate(); // Move this line here
 
-  // Use reducer hook to manage available times state
-  const [availableTimes, dispatch] = useReducer(availableTimesReducer, initialAvailableTimes);
-
-  // State variables for date and form submission
+  // State variables
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [availableTimes, dispatch] = useReducer(availableTimesReducer, []);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Function to handle date changes and update available times
-  const handleDateChange = (e) => {
-    // Check if e.target and e.target.value are defined before accessing the value property
-    if (e.target && e.target.value !== undefined) {
-      const selectedDate = e.target.value;
+  // Fetch available times on component mount
+  useEffect(() => {
+    fetchAvailableTimes(selectedDate);
+  }, [selectedDate]);
 
-      // Update available times and include the selected date in the dispatch parameter
-      dispatch({ type: 'UPDATE_TIMES', payload: { date: selectedDate } });
+  // Function to fetch available times
+  const fetchAvailableTimes = (date) => {
+    fetchAPI(date)
+      .then(updatedTimes => {
+        dispatch({ type: 'UPDATE_TIMES', payload: { times: updatedTimes } });
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle the error, e.g., show an error message to the user
+      });
+  };
+
+  // Function to handle date change
+  const handleDateChange = (e) => {
+    if (e.target && e.target.value !== undefined) {
+      const newDate = e.target.value;
+      setSelectedDate(newDate);
     }
   };
 
-
-  // useEffect to reset formSubmitted after a short delay
-  useEffect(() => {
-    if (formSubmitted) {
-      const timeoutId = setTimeout(() => {
-        setFormSubmitted(false);
-      }, 2000);
-
-      // Cleanup the timeout when the component unmounts
-      return () => clearTimeout(timeoutId);
+  // Function to handle form submission
+  const submitForm = async (formData) => {
+    try {
+      await submitAPI(formData);
+      setFormSubmitted(true);
+      // After successful submission, refresh available times for the selected date
+      fetchAvailableTimes(selectedDate);
+      navigate("/confirmed-booking"); // Navigate here
+    } catch (error) {
+      console.error(error);
+      // Handle the error, e.g., show an error message to the user
     }
-  }, [formSubmitted]);
+  };
 
+  // Render the BookingForm component with appropriate props
   return (
     <div>
       <h3>Make your reservation now!</h3>
-      {/* Pass availableTimes and handleDateChange as props to BookingForm */}
       <BookingForm
         availableTimes={availableTimes}
         onDateChange={handleDateChange}
         formSubmitted={formSubmitted}
+        onSubmit={submitForm}
       />
     </div>
   );
 };
 
 export default BookingPage;
+
+
+
 
