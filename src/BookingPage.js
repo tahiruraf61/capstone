@@ -60,14 +60,14 @@ const BookingPage = () => {
       }
     } catch (error) {
       console.error(error);
-      // Handle the error, e.g., show an error message to the user
+      // Handle the error
     }
   };
 
   // Render the BookingForm component with appropriate props
   return (
     <div>
-      <h3>Make your reservation now!</h3>
+      <h3 style={{textAlign:'center', marginTop:'80px'}}>Make your reservation now!</h3>
       <BookingForm
         availableTimes={availableTimes}
         onDateChange={handleDateChange}

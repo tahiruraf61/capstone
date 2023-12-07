@@ -1,7 +1,7 @@
 const CallToAction = () => {
     return(
         <div>
-            <button className="table">Reserve A Table</button>
+            <button className="button">Reserve A Table</button>
 
         </div>
 

@@ -48,9 +48,10 @@ const BookingForm = ({ availableTimes, onDateChange, onSubmit, formSubmitted }) 
 
   return (
     <div>
-      <form onSubmit={handleSubmit} style={{ display: 'grid', maxWidth: '200px', gap: '20px' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'grid', margin: 'auto', maxWidth: '400px', gap: '20px' }}>
         <label htmlFor="res-date">Choose date</label>
         <input
+        className="formInput"
           type="date"
           id="res-date"
           value={date}
@@ -59,6 +60,7 @@ const BookingForm = ({ availableTimes, onDateChange, onSubmit, formSubmitted }) 
 
         <label htmlFor="res-time">Choose time</label>
         <select
+  className="formInput"
   id="res-time"
   value={time}
   onChange={(e) => setTime(e.target.value)}
@@ -68,10 +70,9 @@ const BookingForm = ({ availableTimes, onDateChange, onSubmit, formSubmitted }) 
   ))}
 </select>
 
-
-
-        <label htmlFor="guests">Number of guests</label>
+<label htmlFor="guests">Number of guests</label>
         <input
+          className="formInput"
           type="number"
           placeholder="1"
           min={1}
@@ -79,19 +80,21 @@ const BookingForm = ({ availableTimes, onDateChange, onSubmit, formSubmitted }) 
           id="guests"
           value={guests}
           onChange={(e) => setGuests(e.target.value)}
-        />
+ />
 
-        <label htmlFor="occasion">Occasion</label>
-        <select
+ <label htmlFor="occasion">Occasion</label>
+   <select
+          className="formInput"
           id="occasion"
           value={occasion}
           onChange={(e) => setOccasion(e.target.value)}
-        >
+   >
           <option>Birthday</option>
           <option>Anniversary</option>
-        </select>
+  </select>
 
         <input
+        className="button"
          type="submit"
          value={'Make your reservation'}
           disabled={!isFormValid}

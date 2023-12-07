@@ -1,13 +1,11 @@
 const Banner = () => {
     return(
-        <div>
+        <div className="banner-container">
         <img
         className="banner"
-      height={300}
-      width={300}
        src={require("./images/banner.jpg")}
        alt="logo"
-       style={{padding: '40px', borderRadius: '50px'}}
+
   />
         </div>
     )
