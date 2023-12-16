@@ -30,7 +30,7 @@ body{
 
 .banner-container {
   max-width: 100%;
-  padding: 0 20px; /* Adjust the padding as needed */
+  padding: 0 20px;
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -71,6 +71,24 @@ body{
   border-radius: 16px;
   background-color: #F4CE14;
   color: black;
+}
+
+.specials-container {
+  display: flex;
+
+}
+.specials-image{
+  margin: 10px;
+}
+
+.dish-image {
+  width: 350px;
+  height: 400px;
+  margin-right: 20px;
+  margin-left: 10px;
+  border-radius: 20px;
+
+
 }
 
 .formInput{
