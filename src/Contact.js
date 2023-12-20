@@ -6,7 +6,7 @@ function Contact() {
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [error, setError] = useState(null);
+
 
 
     const matchEmail = email !== confirmEmail;
@@ -34,7 +34,7 @@ function Contact() {
         <div className="form-container">
             <h4 style={{textAlign: 'center', marginTop: '100px'}}>Send us an email</h4>
             <form onSubmit={handleSubmit} className="form">
-                <label htmlFor="firstName">First name</label>
+                <label htmlFor="firstName">First name<sup>*</sup></label>
                 <input
                 type="text"
                 id="firstName"
@@ -45,7 +45,7 @@ function Contact() {
                 onChange={(e) => setFirstName(e.target.value)}
                 required
                 />
-                <label htmlFor="lastName">Last name</label>
+                <label htmlFor="lastName">Last name<sup>*</sup></label>
                 <input
                 type="text"
                 name="lastName"
@@ -56,7 +56,7 @@ function Contact() {
                 onChange={(e) => setLastName(e.target.value)}
                 required
                 />
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email<sup>*</sup></label>
                 <input
                 type={"email"}
                 name="email"
@@ -67,7 +67,7 @@ function Contact() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 />
-                <label htmlFor="confirmEmail">Confirm email</label>
+                <label htmlFor="confirmEmail">Confirm email<sup>*</sup></label>
                 <input
                 type="email"
                 name="confirmEmail"
@@ -75,9 +75,10 @@ function Contact() {
                 id="confirmEmail"
                 className="formInput"
                 onChange={(e) => setConfirmEmail(e.target.value)}
+                placeholder="example@email.com"
                 required
                 />
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">Message<sup>*</sup></label>
                 <textarea
                 id="message"
                 name="message"
