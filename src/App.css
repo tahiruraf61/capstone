@@ -90,6 +90,17 @@ body{
 
 
 }
+.form{
+  display: grid;
+  max-width: 500px;
+  gap: 10px;
+  margin: auto;
+}
+.inputText{
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
 
 .formInput{
   border: 1px solid #ccc;
